@@ -7,3 +7,14 @@ example usage:
 >>> det a
 det(a) = -5.000000
 ```
+
+available functions:
+```
+det a
+inv a
+transpose (a')
+tr a
+eig a
+eigvec a
+multiplication (c = a * b)
+```

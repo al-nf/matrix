@@ -35,6 +35,29 @@ impl Matrix {
     pub fn transpose(&self) -> Self {
         Self { data: self.data.transpose() }
     }
+
+    pub fn trace(&self) -> Result<f64, MatrixError> {
+        if self.data.nrows() != self.data.ncols() {
+            return Err(MatrixError::NotSquare);
+        }
+        Ok(self.data.trace())
+    }
+
+    pub fn eigenvalues(&self) -> Result<Vec<f64>, MatrixError> {
+        if self.data.nrows() != self.data.ncols() {
+            return Err(MatrixError::NotSquare);
+        }
+        let eigen = self.data.clone().symmetric_eigen();
+        Ok(eigen.eigenvalues.as_slice().to_vec())
+    }
+
+    pub fn eigenvectors(&self) -> Result<Self, MatrixError> {
+        if self.data.nrows() != self.data.ncols() {
+            return Err(MatrixError::NotSquare);
+        }
+        let eigen = self.data.clone().symmetric_eigen();
+        Ok(Self { data: eigen.eigenvectors })
+    }
 }
 
 impl std::fmt::Display for Matrix {

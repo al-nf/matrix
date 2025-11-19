@@ -33,6 +33,30 @@ impl Evaluator {
             return Ok(Some(format!("{}", m)));
         }
 
+        // trace
+        if parts[0] == "tr" && parts.len() == 2 {
+            let m = self.get(parts[1])?;
+            return Ok(Some(format!("tr({}) = {:.6}", parts[1], m.trace()?)));
+        }
+
+        // eigenvalues
+        if parts[0] == "eig" && parts.len() == 2 {
+            let m = self.get(parts[1])?;
+            let eigenvals = m.eigenvalues()?;
+            let vals_str = eigenvals.iter()
+                .map(|v| format!("{:.6}", v))
+                .collect::<Vec<_>>()
+                .join(", ");
+            return Ok(Some(format!("eigenvalues of {}: [{}]", parts[1], vals_str)));
+        }
+
+        // eigenvectors
+        if parts[0] == "eigvec" && parts.len() == 2 {
+            let m = self.get(parts[1])?;
+            let eigvecs = m.eigenvectors()?;
+            return Ok(Some(format!("eigenvectors of {}:\n{}", parts[1], eigvecs)));
+        }
+
         // matrix multiplication: c = a * b
         if parts.len() == 3 && parts[1] == "=" {
             let name = parts[0];

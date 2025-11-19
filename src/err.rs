@@ -7,6 +7,7 @@ pub enum MatrixError {
     ParseError,
     ShapeMismatch,
     NotInvertible,
+    NotSquare,
 }
 
 impl fmt::Display for MatrixError {
